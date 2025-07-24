@@ -324,7 +324,16 @@ def edit(id):
             user.save()
             return redirect(url_for('manage_users'))
     else:
-        form['quota'].data = str(user.get_quota()) + 'KiB' if user.get_quota() else None
+        quota = user.get_quota()
+        if quota:
+            units = ['KiB', 'MiB', 'GiB', 'TiB']
+            cnt = 0
+            while quota & ((1 << 9) - 1) == 0 and cnt < 3:
+                quota = quota >> 10
+                cnt = cnt + 1
+            form['quota'].data = f"{quota}{units[cnt]}"
+        else:
+            form['quota'].data = None
     return render_template('edit.html', form=form, email=user.email)
 
 
