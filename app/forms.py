@@ -5,7 +5,7 @@ from re import fullmatch
 
 
 class OptionalFilesizeField(StringField):
-    sizemultiplier = {"gib":1048576, "g":1048576, "mib":1024, "m":1024, "kib":1, "k":1}
+    sizemultiplier = {"tib": 1024**3, "t": 1024**3, "gib":1048576, "g":1048576, "mib":1024, "m":1024, "kib":1, "k":1}
     
     def process_formdata(self, valuelist):
         if valuelist:
